@@ -48,6 +48,10 @@ variable "aws_az" {
   type = "list"
   description = "AZ"
 }
+variable replica_number {
+  type = number
+  description = "The Number of Read Replica."
+}
 
 # Resources
 resource "aws_rds_cluster_parameter_group" "cluster_pg" {
@@ -176,7 +180,7 @@ resource "aws_rds_cluster_instance" "instances_master" {
 resource "aws_rds_cluster_instance" "instances_reader" {
 
   engine                  = "aurora-mysql"
-  promotion_tier     = 1
+  promotion_tier     = ${count.index+1}
   count              = "${var.replica_number}"
   identifier         = "${var.project}-${var.env}-${var.aurora_name}-db-${count.index+1}"
   cluster_identifier = "${aws_rds_cluster.cluster.id}"

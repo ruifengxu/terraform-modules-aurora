@@ -177,8 +177,8 @@ resource "aws_rds_cluster_instance" "instances_reader" {
 
   engine                  = "aurora-mysql"
   promotion_tier     = 1
-  count              = 1
-  identifier         = "${var.project}-${var.env}-${var.aurora_name}-db-reader1"
+  count              = "${var.replica_number}"
+  identifier         = "${var.project}-${var.env}-${var.aurora_name}-db-${count.index+1}"
   cluster_identifier = "${aws_rds_cluster.cluster.id}"
   instance_class     = "${var.instance_type}"
   db_subnet_group_name = "${var.db_subnet}"

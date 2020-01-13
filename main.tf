@@ -94,7 +94,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_pg" {
     value = 1
     apply_method = "pending-reboot"
   }
-  tags {
+  tags = {
       Name = "${var.project}-${var.env}-${var.aurora_name}-cluster-pg"
   }
 }
@@ -129,7 +129,7 @@ resource "aws_db_parameter_group" "instance_pg" {
     name = "slow_query_log"
     value = 1
   } 
-  tags {
+  tags = {
       Name = "${var.project}-${var.env}-${var.aurora_name}-instance-pg"
   }
 }
@@ -149,7 +149,7 @@ resource "aws_rds_cluster" "cluster" {
   db_cluster_parameter_group_name = "${aws_rds_cluster_parameter_group.cluster_pg.id}"
   enabled_cloudwatch_logs_exports = ["audit"]
   skip_final_snapshot = true
-  tags {
+  tags = {
       Name = "${var.project}-${var.env}-${var.aurora_name}-cluster",
       env = "${var.env}",
       project = "web backend"
@@ -167,7 +167,7 @@ resource "aws_rds_cluster_instance" "instances_master" {
   db_parameter_group_name = "${aws_db_parameter_group.instance_pg.id}"
   auto_minor_version_upgrade = false
 
-  tags {
+  tags = {
       Name = "${var.project}-${var.env}-${var.aurora_name}-instance",
       env = "${var.env}",
       project = "web backend"
@@ -185,7 +185,7 @@ resource "aws_rds_cluster_instance" "instances_reader" {
   db_parameter_group_name = "${aws_db_parameter_group.instance_pg.id}"
   auto_minor_version_upgrade = false
   
-  tags {
+  tags = {
       Name = "${var.project}-${var.env}-${var.aurora_name}-instance",
       env = "${var.env}",
       project = "web backend"

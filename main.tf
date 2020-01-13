@@ -174,7 +174,7 @@ resource "aws_rds_cluster_instance" "instances_master" {
   }
 }
 resource "aws_rds_cluster_instance" "instances_reader" {
-  provider = "aws.${var.project}"
+
   engine                  = "aurora-mysql"
   promotion_tier     = 1
   count              = 1

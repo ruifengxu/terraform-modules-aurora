@@ -180,7 +180,7 @@ resource "aws_rds_cluster_instance" "instances_master" {
 resource "aws_rds_cluster_instance" "instances_reader" {
 
   engine                  = "aurora-mysql"
-  promotion_tier     = ${count.index+1}
+  promotion_tier     = "${count.index+1}"
   count              = "${var.replica_number}"
   identifier         = "${var.project}-${var.env}-${var.aurora_name}-db-${count.index+1}"
   cluster_identifier = "${aws_rds_cluster.cluster.id}"

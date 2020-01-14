@@ -194,5 +194,4 @@ resource "aws_rds_cluster_instance" "instances_reader" {
       env = "${var.env}",
       project = "web backend"
   }
-  depends_on = ["aws_rds_cluster_instance.instances_master"]
 }

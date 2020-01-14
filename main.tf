@@ -3,6 +3,9 @@
 # Maintainer: Ivan Yu
 # Last Update: 2020-01-13
 
+provider "aws" {
+  alias = "this"
+}
 # Variables
 variable project {
   type = string
@@ -55,7 +58,7 @@ variable replica_number {
 
 # Resources
 resource "aws_rds_cluster_parameter_group" "cluster_pg" {
-
+  provider    = aws.this
   name        = "${var.project}-${var.env}-${var.aurora_name}-cluster-pg"
   family      = "aurora-mysql5.7"
   description = "${var.aurora_name} cluster parameter group"
@@ -103,7 +106,7 @@ resource "aws_rds_cluster_parameter_group" "cluster_pg" {
   }
 }
 resource "aws_db_parameter_group" "instance_pg" {
-
+  provider    = aws.this
   name   = "${var.project}-${var.env}-${var.aurora_name}-instance-pg"
   family = "aurora-mysql5.7"
   description = "${var.aurora_name} instance parameter group"
@@ -138,7 +141,7 @@ resource "aws_db_parameter_group" "instance_pg" {
   }
 }
 resource "aws_rds_cluster" "cluster" {
-
+  provider    = aws.this
   cluster_identifier      = "${var.project}-${var.env}-${var.aurora_name}-db"
   engine                  = "aurora-mysql"
   availability_zones      = "${var.aws_az}"
@@ -160,7 +163,7 @@ resource "aws_rds_cluster" "cluster" {
   }
 }
 resource "aws_rds_cluster_instance" "instances_master" {
-
+  provider    = aws.this
   engine                  = "aurora-mysql"
   promotion_tier     = 0
   count              = 1
@@ -178,7 +181,7 @@ resource "aws_rds_cluster_instance" "instances_master" {
   }
 }
 resource "aws_rds_cluster_instance" "instances_reader" {
-
+  provider    = aws.this
   engine                  = "aurora-mysql"
   promotion_tier     = "${count.index+1}"
   count              = "${var.replica_number}"
